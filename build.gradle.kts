@@ -25,7 +25,7 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
-        events("PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR")
+        events("PASSED", "SKIPPED", "FAILED", "STANDARD_ERROR")
     }
 }
 
@@ -62,7 +62,7 @@ val integrationTest = task<Test>("integrationTest") {
     useJUnitPlatform()
 
     testLogging {
-        events("PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR")
+        events("PASSED", "SKIPPED", "FAILED", "STANDARD_ERROR")
     }
 }
 
