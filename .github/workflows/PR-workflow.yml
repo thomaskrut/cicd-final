@@ -6,3 +6,17 @@ on:
 jobs:
   build-project:
     uses: ./.github/workflows/build-project.yml
+  build-docker-image:
+    needs: build-project
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build and export
+      uses: docker/build-push-action@v5
+      with:
+       context: .
+       tags: myimage:latest
+    - name: echo images
+      run: |
+        docker images
