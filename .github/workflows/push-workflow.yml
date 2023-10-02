@@ -1,0 +1,8 @@
+name: push-workflow
+
+on:
+  push:
+
+jobs:
+  build-project:
+   uses: ./.github/workflows/build-project.yml
