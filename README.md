@@ -2,18 +2,18 @@
 ## Devops course
 
 ### Pre-commit:
-#### Git hook - enhetstester
+#### Git hook - unit tests
 
 ### Push:
 #### Merge main -> feature branch
-#### Enhetstester
-#### Integrationstest
+#### Unit tests
+#### Integration tests
 
 ### Pull request:
-#### Enhetstester
-#### Integrationstester
+#### Unit tests
+#### Integration tests
 #### Code review
 #### Test coverage
-#### Deploy to test environment
+#### Deploy to test environment / manual testing
 
 
