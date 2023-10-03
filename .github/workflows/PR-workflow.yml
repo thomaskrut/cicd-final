@@ -58,6 +58,28 @@ jobs:
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
           echo $webapp_url
 
+      - name: Comment on Pull Request
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { context, github } = require('@actions/github');
+            const { data: pullRequest } = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+           });
+        
+            const commentBody = `The deployment is available at: ${webapp_url}`;
+        
+            await github.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: commentBody,
+            });
+
+
       #- name: 'Deploy to Azure Web App for Container'
       #  uses: azure/webapps-deploy@v2
       #  with:
@@ -66,20 +88,3 @@ jobs:
       #    # resource-group-name: ${{ env.AZURE_RESOURCE_GROUP }}
 
 
-#jobs:
-#  build-project:
-#    uses: ./.github/workflows/build-project.yml
-#  build-docker-image:
-#    needs: build-project
-#    runs-on: ubuntu-latest
-#    steps:
-#    - name: Set up Docker Buildx
-#      uses: docker/setup-buildx-action@v3
-#    - name: Build and export
-#      uses: docker/build-push-action@v5
-#      with:
-#       context: .
-#       tags: myimage:latest
-#    - name: echo images
-#      run: |
-#        docker images
