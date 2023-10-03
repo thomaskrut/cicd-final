@@ -63,7 +63,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { ctx, github } = require('@actions/github');
+            const { context: ctx, github } = require('@actions/github');
             const { data: pullRequest } = await github.pulls.get({
             owner: ctx.repo.owner,
             repo: ctx.repo.repo,
