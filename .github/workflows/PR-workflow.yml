@@ -45,8 +45,9 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+          image_name="${{ secrets.REGISTRY_LOGIN_SERVER }}/testing-${{ github.head_ref || github.ref_name }}:${{ github.sha }}"
+          docker build . -t $image_name
+          docker push $image_name
 
       #- name: 'Deploy to Azure Container Instances'
       #  uses: 'azure/aci-deploy@v1'
@@ -62,16 +63,10 @@ jobs:
 
       - name: Create and Deploy to Azure Web App
         run: |
-          deployment_name="test-deployment-${{ github.sha }}"
-          az webapp create --name $deployment_name --resource-group DevOps --plan ChatApp -i ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+          deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
+          az webapp create --name $deployment_name --resource-group DevOps --plan ChatApp -i $image_name
           webapp_url=$(az webapp show --name $deployment_name --resource-group DevOps --query defaultHostName -o tsv)
           echo $webapp_url
-        env:
-          AZURE_CONTAINER_REGISTRY_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-          AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-
-
 
       #- name: 'Deploy to Azure Web App for Container'
       #  uses: azure/webapps-deploy@v2
