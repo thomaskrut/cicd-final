@@ -7,6 +7,9 @@ env:
   AZURE_RESOURCE_GROUP: DevOps
   AZURE_APP_PLAN: ChatApp
 
+permissions:
+  pull-requests: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -57,6 +60,7 @@ jobs:
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i $image_name
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
           echo $webapp_url
+          echo "webapp_url=$webapp_url" >> "$GITHUB_ENV"
 
       - name: Add test deployment url to pull request
         uses: thollander/actions-comment-pull-request@v2
