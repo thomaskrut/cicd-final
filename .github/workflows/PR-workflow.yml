@@ -65,8 +65,7 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           images: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-          resource-group: ${{ env.AZURE_RESOURCE_GROUP }}
-          app-plan: ${{ env.AZURE_APP_PLAN }}
+          resource-group-name: ${{ env.AZURE_RESOURCE_GROUP }}
 
 
 #jobs:
