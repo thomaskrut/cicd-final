@@ -58,24 +58,11 @@ jobs:
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
           echo $webapp_url
 
-      - name: Comment on Pull Request
-        uses: actions/github-script@v5
+      - name: Add test deployment url to pull request
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { context: ctx, github: gh } = require('@actions/github');
-            const { data: pullRequest } = await gh.pulls.get({
-            owner: ctx.repo.owner,
-            repo: ctx.repo.repo,
-            pull_number: ctx.payload.pull_request.number,
-            });
-            const commentBody = 'The deployment is available at $webapp_url';
-            await gh.issues.createComment({
-            owner: ctx.repo.owner,
-            repo: ctx.repo.repo,
-            issue_number: ctx.payload.pull_request.number,
-            body: commentBody,
-            });
+          message: |
+            URL to test deployment: ${{ webapp_url }}
 
 
       #- name: 'Deploy to Azure Web App for Container'
