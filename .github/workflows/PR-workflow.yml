@@ -63,7 +63,7 @@ jobs:
       - name: Deploy to Azure Web App
         run: |
             az webapp config container set --name test-deployment-${{ github.sha }} --resource-group DevOps --docker-custom-image-name ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-          env:
+        env:
             AZURE_WEBAPP_NAME: test-deployment-${{ github.sha }}
             AZURE_RESOURCE_GROUP: DevOps
             AZURE_CONTAINER_REGISTRY_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
