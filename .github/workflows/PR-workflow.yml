@@ -53,7 +53,7 @@ jobs:
           image_name="${{ secrets.REGISTRY_LOGIN_SERVER }}/testing-${{ github.head_ref || github.ref_name }}:${{ github.sha }}"
           docker build . -t $image_name
           docker push $image_name
-          deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}:${{ github.sha }}"
+          deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i $image_name
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
           echo $webapp_url
