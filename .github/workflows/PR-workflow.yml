@@ -4,7 +4,7 @@ on:
   [pull_request, push]
 
 env:
-  AZURE_WEBAPP_NAME: ChatApp10test2   # set this to your application's name
+  AZURE_WEBAPP_NAME: ChatApp10   # set this to your application's name
   AZURE_RESOURCE_GROUP: DevOps   # set this to your Azure Resource group's name - Needed only if you are provisioning the app in the workflow
   AZURE_APP_PLAN: ChatApp  # set this to your App service plan's name - Needed only if you are provisioning the app in the workflow
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
