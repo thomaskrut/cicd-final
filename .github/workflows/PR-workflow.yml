@@ -8,12 +8,11 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: build project
-        uses: ./.github/workflows/build-project.yml
       # checkout the repo
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v3
-
+      - name: build project
+        uses: ./.github/workflows/build-project.yml
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
