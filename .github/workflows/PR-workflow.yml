@@ -63,14 +63,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { context: ctx, github } = require('@actions/github');
-            const { data: pullRequest } = await github.pulls.get({
+            const { context: ctx, github: gh } = require('@actions/github');
+            const { data: pullRequest } = await gh.pulls.get({
             owner: ctx.repo.owner,
             repo: ctx.repo.repo,
             pull_number: ctx.payload.pull_request.number,
             });
             const commentBody = 'The deployment is available at $webapp_url';
-            await github.issues.createComment({
+            await gh.issues.createComment({
             owner: ctx.repo.owner,
             repo: ctx.repo.repo,
             issue_number: ctx.payload.pull_request.number,
