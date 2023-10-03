@@ -65,7 +65,7 @@ jobs:
           deployment_name="test-deployment-${{ github.sha }}"
           az webapp create --name $deployment_name --resource-group DevOps --plan ChatApp -i ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
           webapp_url=$(az webapp show --name $deployment_name --resource-group DevOps --query defaultHostName -o tsv)
-          echo "::set-output name=webapp_url::$webapp_url"
+          echo $webapp_url
         env:
           AZURE_CONTAINER_REGISTRY_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
