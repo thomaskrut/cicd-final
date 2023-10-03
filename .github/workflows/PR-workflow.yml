@@ -69,7 +69,7 @@ jobs:
             repo: context.repo.repo,
             pull_number: context.payload.pull_request.number,
             });
-            const commentBody = 'The deployment is available at';
+            const commentBody = 'The deployment is available at $webapp_url';
             await github.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
