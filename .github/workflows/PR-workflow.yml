@@ -63,6 +63,7 @@ jobs:
 
       - name: Create and Deploy to Azure Web App
         run: |
+          echo $image_name
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group DevOps --plan ChatApp -i $image_name
           webapp_url=$(az webapp show --name $deployment_name --resource-group DevOps --query defaultHostName -o tsv)
