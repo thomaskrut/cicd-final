@@ -48,8 +48,8 @@ jobs:
           docker build . -t $image_name
           docker push $image_name
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
-          az webapp create --name $deployment_name --resource-group ${{ AZURE_RESOURCE_GROUP }} --plan ${{ AZURE_APP_PLAN }} -i $image_name
-          webapp_url=$(az webapp show --name $deployment_name --resource-group ${{ AZURE_RESOURCE_GROUP }} --query defaultHostName -o tsv)
+          az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i $image_name
+          webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
           echo $webapp_url
 
       #- name: 'Deploy to Azure Web App for Container'
