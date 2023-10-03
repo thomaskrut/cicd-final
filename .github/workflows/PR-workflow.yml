@@ -67,7 +67,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            "URL to test deployment: [http://$webappurl](http://$webappurl)"
+            URL to test deployment: [https://"$webappurl"](https://"$webappurl")
 
 
       #- name: 'Deploy to Azure Web App for Container'
