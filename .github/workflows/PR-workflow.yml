@@ -48,23 +48,28 @@ jobs:
           docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
 
-      - name: 'Deploy to Azure Container Instances'
-        uses: 'azure/aci-deploy@v1'
-        with:
-          resource-group: ${{ secrets.RESOURCE_GROUP }}
-          dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: sampleapp
-          location: 'west us'
+      #- name: 'Deploy to Azure Container Instances'
+      #  uses: 'azure/aci-deploy@v1'
+      #  with:
+      #    resource-group: ${{ secrets.RESOURCE_GROUP }}
+      #    dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+      #    image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+      #    registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+      #    registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      #    registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+      #    name: sampleapp
+      #    location: 'west us'
 
       - name: Create and Deploy to Azure Web App
         run: |
           deployment_name="test-deployment-${{ github.sha }}"
           az webapp create --name $deployment_name --resource-group DevOps --plan ChatApp -i ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-
+          webapp_url=$(az webapp show --name $deployment_name --resource-group ChatApp --query defaultHostName -o tsv)
+          echo "::set-output name=webapp_url::$webapp_url"
+        env:
+          AZURE_CONTAINER_REGISTRY_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 
 
