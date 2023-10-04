@@ -38,10 +38,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run build and generate jacoco test report
+      - name: Generate jacoco test report and build jar
         run: |
-          ./gradlew build
           ./gradlew jacocoTestReport
+          ./gradlew bootJar
 
       - name: Add coverage to pull request
         id: jacoco
