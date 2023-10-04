@@ -24,3 +24,8 @@ körs i actions.
 Vid pull request görs, förutom automatiserade enhets- och integrationstester, en automatisk deploy till
 testmiljö i form av en Azure Web App. Länken till denna hamnar som en kommentar till pull requesten, så att
 man i samband med code review kan gå in och manuellt testa applikationen.
+
+### Acceptanstester
+Kod som mergats till main deployas automatiskt till en annan testmiljö där den genomgår ytterligare
+manuella acceptanstester för att säkerställa att affärslogik och användarkrav uppfylls innan den går
+i produktion.

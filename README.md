@@ -36,12 +36,12 @@ dina checks fallerar i Github actions. Starta din applikation och kör sedan:
 När du är färdig med en feature, pusha och skapa en pull request mot main. Följande kriterier måste uppfyllas för
 att branchen ska kunna mergas:
 
-1.[ ] Enhetstester går igenom  
-2.[ ] Integrations/systemtester går igenom  
-3.[ ] Test coverage är över 60% på hela projektet  
-4.[ ] Test coverage är över 80% på de filer du arbetat i  
-5.[ ] En senior utvecklare har granskat och godkänt din kod  
-6.[ ] En serior utvecklare har gjort manuella tester av deployment av applikationen till testmiljö  
+- Enhetstester går igenom  
+- Integrations/systemtester går igenom  
+- Test coverage är över 60% på hela projektet  
+- Test coverage är över 80% på de filer du arbetat i  
+- En senior utvecklare har granskat och godkänt din kod  
+- En serior utvecklare har gjort manuella tester av deployment av applikationen till testmiljö  
 
 Om din pull request inte uppfyller alla kriterier, fixa och pusha igen. Om du inte kan lösa problemet, be en senior utvecklare
 om hjälp. När alla kriterier är uppfyllda kan en senior utvecklare merga din branch till main.
