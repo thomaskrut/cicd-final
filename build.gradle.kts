@@ -75,7 +75,7 @@ tasks {
 
 tasks {
     jacocoTestReport {
-        dependsOn(build)
+        dependsOn(test)
         reports {
             xml.required.set(true)
             csv.required.set(true)
