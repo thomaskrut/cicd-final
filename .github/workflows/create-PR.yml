@@ -3,6 +3,7 @@ name: 'Build, test and deploy to testing environment on pull request'
 on:
   pull_request:
 
+
 env:
   AZURE_RESOURCE_GROUP: DevOps
   AZURE_APP_PLAN: ChatApp
