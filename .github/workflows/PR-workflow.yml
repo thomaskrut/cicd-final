@@ -8,8 +8,11 @@ env:
   AZURE_APP_PLAN: ChatApp
 
 jobs:
+
   build-and-deploy:
+
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       pull-requests: write
@@ -17,7 +20,8 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v3
@@ -35,14 +39,11 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
       - name: Generate jacoco test report and build jar
         run: |
+          chmod +x gradlew
           ./gradlew jacocoTestReport
           ./gradlew bootJar
-          cat ./build/reports/jacoco/test/jacocoTestReport.xml
 
       - name: Add coverage to pull request
         id: jacoco
