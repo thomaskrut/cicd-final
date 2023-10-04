@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
+    id("jacoco")
 }
 
 group = "com.example"
@@ -69,6 +70,16 @@ val integrationTest = task<Test>("integrationTest") {
 tasks {
     bootJar {
         archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+    }
+}
+
+tasks {
+    jacocoTestReport {
+        dependsOn(build)
+        reports {
+            xml.required.set(true)
+            csv.required.set(true)
+        }
     }
 }
 
