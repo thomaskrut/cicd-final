@@ -68,7 +68,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy ghcr image to Azure Web App
+      - name: Deploy Azure Web App with ghcr container image
         run: |
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ${{ steps.meta.outputs.tags }} -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
