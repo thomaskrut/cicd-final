@@ -63,12 +63,20 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Run image
+        run: |
+          docker run -d -p 8080:8080 ${{ steps.meta.outputs.tags }}
+
+      - name: Run integration tests
+        run: |
+          ./gradlew integrationTest
+
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy ghcr image to Azure Web App
+      - name: Deploy Azure Web App with ghcr container image
         run: |
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ${{ steps.meta.outputs.tags }} -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
@@ -79,13 +87,3 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: webappurl.txt
-
-
-      #- name: 'Deploy to Azure Web App for Container'
-      #  uses: azure/webapps-deploy@v2
-      #  with:
-      #    app-name: ${{ env.AZURE_WEBAPP_NAME }}
-      #    images: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-      #    # resource-group-name: ${{ env.AZURE_RESOURCE_GROUP }}
-
-

@@ -33,7 +33,7 @@ public class WebControllerSmokeTest {
                     .get("/addmessage?username=Username&message=Message")
                     .then()
                     .statusCode(200)
-                    .body("html.head.title", equalTo("Chat 1.0"));
+                    .body("html.head.title", equalTo("Chat 2.0"));
     }
 
 
