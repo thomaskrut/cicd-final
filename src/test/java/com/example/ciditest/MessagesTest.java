@@ -30,4 +30,12 @@ class MessagesTest {
         Messages.addMessage(new Message("Username", "Message 2"));
         assertEquals(Messages.getAllMessagesAfterTimestamp(Messages.getAllMessages().get(0).getTimestamp()).size(), 1);
     }
+
+    @Test
+    void removeMessage() {
+        Messages.addMessage(new Message("Username", "Message"));
+        Messages.addMessage(new Message("Username", "Message 2"));
+        Messages.removeMessage(Messages.getAllMessages().get(0));
+        assertEquals(Messages.getAllMessages().size(), 1);
+    }
 }

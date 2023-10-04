@@ -8,8 +8,11 @@ env:
   AZURE_APP_PLAN: ChatApp
 
 jobs:
+
   build-and-deploy:
+
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       pull-requests: write
@@ -17,7 +20,8 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v3
@@ -35,11 +39,28 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Generate jacoco test report and build jar
+        run: |
+          chmod +x gradlew
+          ./gradlew jacocoTestReport
+          ./gradlew bootJar
 
-      - name: Run build
-        run: ./gradlew build
+      - name: Add coverage to pull request
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml,
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 60
+          min-coverage-changed-files: 80
+
+      - name: Fail coverage is <60%
+        if: ${{ steps.jacoco.outputs.coverage-overall < 60.0 }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('Overall coverage is less than 60%!')    
 
       - name: Log in to ghcr.io
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -47,7 +68,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
