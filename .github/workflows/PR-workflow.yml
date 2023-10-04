@@ -38,8 +38,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run build and jacoco
-        run: ./gradlew jacocoTestReport
+      - name: Run build and generate jacoco test report
+        run: |
+          ./gradlew build
+          ./gradlew jacocoTestReport
 
       - name: Log in to ghcr.io
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
