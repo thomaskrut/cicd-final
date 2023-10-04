@@ -86,7 +86,7 @@ tasks {
 tasks.register<Copy>("installLocalGitHook") {
     from(File(rootProject.rootDir, "scripts/pre-push"))
     into(File(rootProject.rootDir, ".git/hooks"))
-    fileMode = 775
+    fileMode = "775".toInt(radix = 8)
 }
 
 tasks.named("build").configure {
