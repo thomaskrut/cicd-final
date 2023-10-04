@@ -18,6 +18,10 @@ public class Messages {
         return messageList.stream().filter(message -> message.getTimestamp().isAfter(timestamp)).collect(Collectors.toList());
     }
 
+    public static void removeMessage(Message message) {
+        messageList.remove(message);
+    }
+
     public static void clearMessages() {
         messageList.clear();
     }
