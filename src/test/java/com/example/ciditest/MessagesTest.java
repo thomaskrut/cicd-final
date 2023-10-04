@@ -24,5 +24,10 @@ class MessagesTest {
         assertEquals(Messages.getAllMessages().size(), 2);
     }
 
-
+    @Test
+    void shouldReturnMessagesAfterTimestampOfFirstMessage() {
+        Messages.addMessage(new Message("Username", "Message"));
+        Messages.addMessage(new Message("Username", "Message 2"));
+        assertEquals(Messages.getAllMessagesAfterTimestamp(Messages.getAllMessages().get(0).getTimestamp()).size(), 1);
+    }
 }

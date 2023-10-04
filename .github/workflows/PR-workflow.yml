@@ -42,6 +42,8 @@ jobs:
         run: |
           ./gradlew jacocoTestReport
           ./gradlew bootJar
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
 
       - name: Add coverage to pull request
         id: jacoco
