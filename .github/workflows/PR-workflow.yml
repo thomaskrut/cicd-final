@@ -60,14 +60,12 @@ jobs:
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i $image_name
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
-          echo $webapp_url
-          echo "webappurl=$webapp_url" >> "$GITHUB_ENV"
+          echo $webapp_url > webappurl.txt
 
       - name: Add test deployment url to pull request
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: |
-            URL to test deployment: [https://"$webappurl"](https://"$webappurl")
+          filePath: webappurl.txt
 
 
       #- name: 'Deploy to Azure Web App for Container'
