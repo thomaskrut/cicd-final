@@ -41,6 +41,18 @@ jobs:
       - name: Run build
         run: ./gradlew build
 
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Login for Docker to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -66,19 +78,7 @@ jobs:
           tags: ${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Login via Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Login for Docker to Azure Container Registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      - name: Build with docker, push image and deploy to Azure Web App
+      - name: Push image and deploy to Azure Web App
         run: |
           image_name="${{ secrets.REGISTRY_LOGIN_SERVER }}/testing-${{ github.head_ref || github.ref_name }}:${{ github.sha }}"
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
