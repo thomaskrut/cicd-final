@@ -1,4 +1,4 @@
-name: push-to-main
+name: "Deploy to production environment"
 
 on:
     push:
@@ -13,55 +13,31 @@ jobs:
             contents: read
             pull-requests: write
             packages: write
+
         steps:
+
             - name: check out repository
               uses: actions/checkout@v3
-            - name: echo context variables
-              run: |
-                  echo "GITHUB_REF: $GITHUB_REF"
-                  echo "GITHUB_SHA: $GITHUB_SHA"
-                  echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
-                  echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
-                  echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
-                  echo "GITHUB_ACTOR: $GITHUB_ACTOR"
-                  echo "GITHUB_WORKFLOW: $GITHUB_WORKFLOW"
-                  echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
-                  echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-                  echo "GITHUB_SHA: $GITHUB_SHA"
-                  echo "GITHUB_REF: $GITHUB_REF"
-                  echo "GITHUB_TOKEN: $GITHUB_TOKEN"
-                  echo "GITHUB_SERVER_URL: $GITHUB_SERVER_URL"
-                  echo "GITHUB_API_URL: $GITHUB_API_URL"
-                  echo "GITHUB_GRAPHQL_URL: $GITHUB_GRAPHQL_URL"
-                  echo "RUNNER_OS: $RUNNER_OS"
-                  echo "RUNNER_TOOL_CACHE: $RUNNER_TOOL_CACHE"
-                  echo "RUNNER_TEMP: $RUNNER_TEMP"
-                  echo "RUNNER_WORKSPACE: $RUNNER_WORKSPACE"
-                  echo "ACTIONS_RUNTIME_URL: $ACTIONS_RUNTIME_URL"
-                  echo "ACTIONS_RUNTIME_TOKEN: $ACTIONS_RUNTIME_TOKEN"
-                  echo "ACTIONS_CACHE_URL: $ACTIONS_CACHE_URL"
-                  echo "ACTIONS_CACHE_RETENTION_DAYS: $ACTIONS_CACHE_RETENTION_DAYS"
-                  echo "ACTIONS_CACHE_REPOSITORY: $ACTIONS_CACHE_REPOSITORY"
-                  echo "ACTIONS_PREPEND_PATH: $ACTIONS_PREPEND_PATH"
-                  echo "ACTIONS_STEP_DEBUG: $ACTIONS_STEP_DEBUG"
-                  echo "AGENT_OS: $AGENT_OS"
-                  echo "AGENT_TOOLSDIRECTORY: $AGENT_TOOLSDIRECTORY"
-                  echo "AGENT_TEMPDIRECTORY: $AGENT_TEMPDIRECTORY"
-                  echo "AGENT_HOMEDIRECTORY: $AGENT_HOMEDIRECTORY"
-                  echo "AGENT_WORKFOLDER: $AGENT_WORKFOLDER"
-                  echo "AGENT_VERSION: $AGENT_VERSION"
-                  echo "AGENT_NAME: $AGENT_NAME"
-                  echo "AGENT_JOBNAME: $AGENT_JOBNAME"
-                  echo "AGENT_JOBSTATUS: $AGENT_JOBSTATUS"
-                  echo "AGENT_RETAINDEFAULTENCODING: $AGENT_RETAINDEFAULTENCODING"
-              
+
+            - name: Set up JDK 17
+              uses: actions/setup-java@v3
+              with:
+               java-version: '17'
+               distribution: 'corretto'
 
             - name: Cache Gradle dependencies
               uses: actions/cache@v3
               with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/wrapper
-                  key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-                  restore-keys: |
-                      gradle-${{ runner.os }}-
+                 path: |
+                     ~/.gradle/caches
+                     ~/.gradle/wrapper
+                 key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+                 restore-keys: |
+                     gradle-${{ runner.os }}-
+
+            - name: Log in to ghcr.io
+              uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+              with:
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,4 @@
-name: push-workflow
-
+name: 'Build and run tests'
 on:
   push:
 
