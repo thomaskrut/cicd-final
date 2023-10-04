@@ -18,7 +18,8 @@ När andra pushar till sina feature branches eller till main, se till att merga 
 ### Kvalitetskontroll
 Eftersom andra mergar in din kod i sina branches, se till att din kod är av hög kvalitet, annars kanske andra
 får problem med checks på sina pull requests på grund av brister i din kod. När du pushar körs först en git hook
-som säkerställer att dina enhetstester går gröna innan push kan ske.
+som säkerställer att dina enhetstester går gröna innan push kan ske. Efter push körs både enhetstester och
+integrationstester i Github actions - håll koll på dessa och fixa/pusha innan andra mergar din kod.
 
 
 
