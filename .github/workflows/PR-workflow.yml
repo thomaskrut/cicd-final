@@ -43,13 +43,6 @@ jobs:
           ./gradlew build
           ./gradlew jacocoTestReport
 
-      - name: Log in to ghcr.io
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Add coverage to pull request
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
@@ -59,12 +52,20 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 60
           min-coverage-changed-files: 80
+
       - name: Fail coverage is <60%
         if: ${{ steps.jacoco.outputs.coverage-overall < 60.0 }}
         uses: actions/github-script@v6
         with:
           script: |
-            core.setFailed('Overall coverage is less than 60%!')
+            core.setFailed('Overall coverage is less than 60%!')    
+
+      - name: Log in to ghcr.io
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta

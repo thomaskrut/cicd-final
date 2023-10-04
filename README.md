@@ -5,7 +5,8 @@ Vi jobbar i feature branches. När du ska börja jobba på en ny feature, kör:
 ```$ git checkout -b kort-feature-beskrivning```
 
 ### Push
-När du skrivit kod som fungerar och som du vill att andra ska kunna merga in i sina feature branches för att undvika stora merge conflicts längre fram, kör:  
+När du skrivit kod som fungerar och som du vill att andra ska kunna merga in i sina feature branches för att
+undvika stora merge conflicts längre fram, kör:  
 ```$ git push```  
 Skicka ut ett PM om att du just pushat ny kod.
 
@@ -15,7 +16,8 @@ När andra pushar till sina feature branches eller till main, se till att merga 
 ```$ git merge namn-på-branch```
 
 ### Kvalitetskontroll
-För att koden du pushar ska hålla god standard vad gäller enhetstester
+Eftersom andra mergar in din kod i sina branches, se till att din kod är av hög kvalitet, annars kanske andra
+får problem med checks på sina pull requests på grund av brister i din kod.
 
 
 
