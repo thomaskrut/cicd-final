@@ -1,19 +1,4 @@
-# Final assignment
-## Devops course
+# CI/CD och Git i detta project
 
-### Pre-commit:
-#### Git hook - unit tests
-
-### Push:
-#### Merge main -> feature branch
-#### Unit tests
-#### Integration tests
-
-### Pull request:
-#### Unit tests
-#### Integration tests
-#### Code review
-#### Test coverage
-#### Deploy to test environment / manual testing
 
 
