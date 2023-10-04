@@ -8,7 +8,7 @@ Vi jobbar i feature branches. När du ska börja jobba på en ny feature, kör:
 När du skrivit kod som fungerar och som du vill att andra ska kunna merga in i sina feature branches för att
 undvika stora merge conflicts längre fram, kör:  
 ```$ git push```  
-Skicka ut ett PM om att du just pushat ny kod.
+Skicka ut ett PM om att du just pushat ny kod, så snart du ser att alla checks gått igenom på Github
 
 ### Merge
 När andra pushar till sina feature branches eller till main, se till att merga in deras ändringar i din branch:  

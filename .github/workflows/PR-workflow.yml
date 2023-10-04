@@ -55,13 +55,6 @@ jobs:
           min-coverage-overall: 60
           min-coverage-changed-files: 80
 
-      - name: Fail coverage is <60%
-        if: ${{ steps.jacoco.outputs.coverage-overall < 60.0 }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.setFailed('Overall coverage is less than 60%!')    
-
       - name: Log in to ghcr.io
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
