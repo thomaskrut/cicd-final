@@ -68,20 +68,10 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Login for Docker to Azure Container Registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
       - name: Build with docker, push image and deploy to Azure Web App
         run: |
-          image_name="${{ secrets.REGISTRY_LOGIN_SERVER }}/testing-${{ github.head_ref || github.ref_name }}:${{ github.sha }}"
-          docker build . -t $image_name
-          docker push $image_name
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
-          az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i $image_name
+          az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ghcr.io/${{ github.repository }} -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
           echo "### :mag: Test deployment available at [$webapp_url](https://$webapp_url)" > webappurl.txt
 
