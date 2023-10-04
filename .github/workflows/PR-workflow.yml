@@ -53,9 +53,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: | 
+            ghcr.io/${{ github.repository }}
+            ${{ secrets.REGISTRY_LOGIN_SERVER }}/testing-${{ github.head_ref || github.ref_name }}:${{ github.sha }}
+            
 
-      - name: Build and push Docker image to ghcr.io
+      - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
@@ -78,8 +81,6 @@ jobs:
       - name: Build with docker, push image and deploy to Azure Web App
         run: |
           image_name="${{ secrets.REGISTRY_LOGIN_SERVER }}/testing-${{ github.head_ref || github.ref_name }}:${{ github.sha }}"
-          docker build . -t $image_name
-          docker push $image_name
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i $image_name
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
