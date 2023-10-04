@@ -1,4 +1,4 @@
-echo "Running unit tests..."
+echo "Running unit tests...."
 ./gradlew test
 status=$?
 echo "Finished running unit tests."
