@@ -63,6 +63,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Run image
+        run: |
+          docker run -d -p 8080:8080 ${{ steps.meta.outputs.tags }}
+
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
@@ -79,13 +83,3 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: webappurl.txt
-
-
-      #- name: 'Deploy to Azure Web App for Container'
-      #  uses: azure/webapps-deploy@v2
-      #  with:
-      #    app-name: ${{ env.AZURE_WEBAPP_NAME }}
-      #    images: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-      #    # resource-group-name: ${{ env.AZURE_RESOURCE_GROUP }}
-
-
