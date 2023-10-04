@@ -1,3 +1,4 @@
-# Rutiner för git och ci/cd
+# CI/CD och Git i detta project
+
 
 
