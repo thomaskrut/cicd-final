@@ -21,11 +21,18 @@ När andra pushar till sina feature branches eller till main, se till att merga 
 
 ### Kvalitetskontroll
 Eftersom andra mergar in din kod i sina branches, se till att din kod är av hög kvalitet, annars kanske andra
-får problem med checks på sina pull requests på grund av brister i din kod. När du pushar körs först en git hook
-som säkerställer att dina enhetstester går gröna innan push kan ske. Efter push körs både enhetstester och
-integrationstester i Github actions - håll koll på dessa och fixa/pusha innan andra mergar din kod.
+får problem med checks på sina pull requests orsakade av brister i din kod. När du pushar körs först en git hook
+lokalt som säkerställer att dina enhetstester går gröna innan push kan ske. Efter push körs både enhetstester och
+integrationstester på din kod i Github actions - håll koll på dessa, lös eventuella problem och pusha på nytt innan
+andra får merga din kod. Sträva efter hög täckning vad gäller tester, se *Pull requests* nedan.
 
-### Pull request
+### Integrationstester
+Tester som gör nätverksanrop mot körande applikation ligger under mappen intTest. Dessa körs i Github actions
+vid push och innan kod kan mergas till main. Kör dessa tester lokalt innan du pushar för att undvika att
+dina checks fallerar i Github actions. Starta din applikation och kör sedan:  
+```$ ./gradlew integrationTest```
+
+### Pull requests
 När du är färdig med en feature, pusha och skapa en pull request mot main. Följande kriterier måste uppfyllas för
 att branchen ska kunna mergas:
 
@@ -36,8 +43,8 @@ att branchen ska kunna mergas:
 5.[ ] En senior utvecklare har granskat och godkänt din kod
 6.[ ] En serior utvecklare har gjort manuella tester av deployment av applikationen till testmiljö  
 
-Om din pull request inte uppfyller alla kriterier, fixa och pusha igen. Om du inte kan fixa, be en senior utvecklare
-om hjälp. När alla kriterier är uppfyllda, kan en senior utvecklare merga din branch till main.
+Om din pull request inte uppfyller alla kriterier, fixa och pusha igen. Om du inte kan lösa problemet, be en senior utvecklare
+om hjälp. När alla kriterier är uppfyllda kan en senior utvecklare merga din branch till main.
 
 
 
