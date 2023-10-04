@@ -22,7 +22,7 @@ public class WebControllerSmokeTest {
                 .get("/")
                 .then()
                 .statusCode(200)
-                .body("html.head.title", equalTo("Chat 1.0"));
+                .body("html.head.title", equalTo("Chat 2.0"));
     }
 
     @Test
