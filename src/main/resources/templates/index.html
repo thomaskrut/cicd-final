@@ -1,27 +1,39 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/style.css}"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat 1.0</title>
+    <title>Chat 2.0</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
+<header>
+    <h1>Chat 2.0</h1>
+</header>
 
-<div th:each="msg : ${messages}">
-    <span th:text="${msg.username}"></span>: <span th:text="${msg.message}"></span>
-</div>
-<hr>
-<form id="form" action="#" th:action="@{addmessage}" method="get">
-    <div>
-        <label for="username">Username:</label><br>
-        <input type="text" th:value="${username}" id="username" name="username"><br>
-        <label for="message">Message:</label><br>
-        <input type="text" id="message" name="message"><br>
-        <input id="confirm-button" type="submit" value="Submit">
-        <button type="button" onClick="window.location.assign('/')">Refresh</button>
+<main>
+    <div class="message-container">
+        <div class="message" th:each="msg : ${messages}">
+            <span class="username" th:text="${msg.username}"></span>: <span class="message-text" th:text="${msg.message}"></span>
+        </div>
     </div>
-</form>
 
+    <hr>
+
+    <form id="message-form" action="/addmessage" method="post">
+        <div class="input-container">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" th:value="${username}" required>
+        </div>
+        <div class="input-container">
+            <label for="message">Message:</label>
+            <input type="text" id="message" name="message" required>
+        </div>
+        <div class="button-container">
+            <button type="submit">Submit</button>
+            <button type="button" onclick="window.location.href = '/'">Refresh</button>
+        </div>
+    </form>
+</main>
 </body>
 </html>
