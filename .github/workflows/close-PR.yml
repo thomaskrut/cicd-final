@@ -1,4 +1,4 @@
-name: Delete Azure Web App on pull request close
+name: 'Delete Azure Web App on pull request close'
 
 on:
   pull_request:

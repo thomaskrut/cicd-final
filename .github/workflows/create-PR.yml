@@ -1,4 +1,4 @@
-name: pull-request-workflow
+name: 'Build, test and deploy to testing environment on pull request'
 
 on:
   pull_request:
