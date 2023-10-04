@@ -1,0 +1,21 @@
+name: Delete Azure Web App on pull request close
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  delete-web-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Delete Azure Web App
+        run: |
+          deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
+          az webapp delete --name $deployment_name --resource-group DevOps --keep-empty-plan
