@@ -65,5 +65,5 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
-          ./gradlew bootRun &
+          java -jar build/libs/ciditest.jar &
           ./gradlew integrationTest
