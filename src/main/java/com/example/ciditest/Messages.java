@@ -29,4 +29,8 @@ public class Messages {
     public static void clearMessages() {
         messageList.clear();
     }
+
+    public Message getLastMessage() {
+        return messageList.get(messageList.size() - 1);
+    }
 }
