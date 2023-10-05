@@ -3,7 +3,7 @@ on:
   push:
 
 jobs:
-  build:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,10 +23,33 @@ jobs:
           distribution: 'corretto'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Run build
+      - name: Run unit tests
         run: |
-          ./gradlew build
-      - name: run jar
-        run: java -jar build/libs/ciditest.jar &
+          ./gradlew test
+
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run application
+        run: |
+          ./gradlew bootRun
       - name: run integration test
         run: ./gradlew integrationTest
