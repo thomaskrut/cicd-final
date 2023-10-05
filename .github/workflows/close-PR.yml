@@ -10,11 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # Log in to Azure
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Delete Azure Web App using Azure CLI
       - name: Delete Azure Web App
         run: |
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
