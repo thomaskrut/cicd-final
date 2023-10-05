@@ -23,7 +23,7 @@ public class WebControllerTest {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(containsString("Chat 1.0")));
+                .andExpect(content().string(containsString("Chat 2.0")));
     }
 
     @Test
