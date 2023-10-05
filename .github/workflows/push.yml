@@ -50,6 +50,6 @@ jobs:
         run: chmod +x gradlew
       - name: Run application
         run: |
-          ./gradlew bootRun
+          ./gradlew bootRun &
       - name: run integration test
         run: ./gradlew integrationTest
