@@ -90,6 +90,6 @@ jobs:
       - name: Run application
         run: |
           chmod +x gradlew
-          ./gradlew build
-          ./gradlew bootRun &
+          ./gradlew bootJar
+          java -jar build/libs/ciditest.jar &
           ./gradlew integrationTest
