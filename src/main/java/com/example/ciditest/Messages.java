@@ -18,7 +18,8 @@ public class Messages {
     }
 
     public static List<Message> getAllMessagesAfterTimestamp(LocalDateTime timestamp) {
-        return messageList.stream().filter(message -> message.getTimestamp().isAfter(timestamp)).collect(Collectors.toList());
+        return messageList.stream().filter(message -> message.getTimestamp()
+                .isAfter(timestamp)).collect(Collectors.toList());
     }
 
     public static void removeMessage(Message message) {

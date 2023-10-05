@@ -52,6 +52,8 @@ på om din kod följer vår standard genom att regelbundet köra dessa kommandon
 
 ```$ ./gradlew checkstyleTest```  
 
+```$ ./gradlew checkstyleIntTest```
+
 Eller kontrollera hela bygget med:  
 
 ```$ ./gradlew build```

@@ -16,7 +16,8 @@ public class WebController {
     }
 
     @RequestMapping("/addmessage")
-    public String addMessage(@RequestParam(defaultValue = "") String username, @RequestParam(defaultValue = "") String message, Model model) {
+    public String addMessage(@RequestParam(defaultValue = "") String username,
+                             @RequestParam(defaultValue = "") String message, Model model) {
         Messages.addMessage(new Message(username, message));
         return index(model, username);
     }

@@ -1,9 +1,10 @@
 package com.example.ciditest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class MessagesTest {
 
@@ -11,6 +12,7 @@ class MessagesTest {
     void setUp() {
         Messages.clearMessages();
     }
+
     @Test
     void shouldReturnMessagesListSizeOneWhenAddingNewMessage() {
         Messages.addMessage(new Message("Username", "Message"));
@@ -18,7 +20,7 @@ class MessagesTest {
     }
 
     @Test
-    void shouldReturnMessagesListSizeTwoWhenAddingTwoMessages () {
+    void shouldReturnMessagesListSizeTwoWhenAddingTwoMessages() {
         Messages.addMessage(new Message("Username", "Message"));
         Messages.addMessage(new Message("Username", "Message 2"));
         assertEquals(Messages.getAllMessages().size(), 2);
@@ -28,7 +30,8 @@ class MessagesTest {
     void shouldReturnMessagesAfterTimestampOfFirstMessage() {
         Messages.addMessage(new Message("Username", "Message"));
         Messages.addMessage(new Message("Username", "Message 2"));
-        assertEquals(Messages.getAllMessagesAfterTimestamp(Messages.getAllMessages().get(0).getTimestamp()).size(), 1);
+        assertEquals(Messages.getAllMessagesAfterTimestamp(Messages.getAllMessages()
+                .get(0).getTimestamp()).size(), 1);
     }
 
     @Test
