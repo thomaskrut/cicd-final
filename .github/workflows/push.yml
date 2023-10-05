@@ -64,5 +64,6 @@ jobs:
       - name: Run application
         run: |
           chmod +x gradlew
+          ./gradlew build
           ./gradlew bootRun &
           ./gradlew integrationTest
