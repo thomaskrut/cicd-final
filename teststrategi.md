@@ -4,7 +4,7 @@
 I detta projekt jobbar vi med featurebranches som mergas till main när de är klara. Målet är att main
 alltid ska innehålla produktionsduglig och vältestad kod så att deployment till produktion kan ske så ofta som
 möjligt. Feature branches är kortlivade, mellan en till tre dagar beroende på feature, och tas bort efter
-merge till main. Större features bör delas upp på flera branches.
+merge till main. Större features bör delas upp på flera branches.  
 
 ## Tester
 ### Enhetstester
