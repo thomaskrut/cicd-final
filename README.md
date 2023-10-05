@@ -1,4 +1,4 @@
-# CI/CD och Git i projektet
+# CI/CD och Git
 
 ### Branches
 Vi jobbar i feature branches. När du ska börja jobba på en ny feature, kör:  
