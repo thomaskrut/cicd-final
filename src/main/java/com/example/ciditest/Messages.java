@@ -7,9 +7,12 @@ import java.util.stream.Collectors;
 
 public class Messages {
     private static List<Message> messageList = new ArrayList<>();
+
     public static void addMessage(Message message) {
         messageList.add(message);
+
     }
+
     public static List<Message> getAllMessages() {
         return messageList;
     }

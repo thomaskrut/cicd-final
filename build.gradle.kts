@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
     id("jacoco")
+    id("checkstyle")
 }
 
 group = "com.example"
@@ -92,6 +93,22 @@ tasks.register<Copy>("installLocalGitHook") {
 tasks.named("build").configure {
     dependsOn("installLocalGitHook")
 }
+
+checkstyle {
+    configFile = file("${project.rootDir}/google_checks.xml")
+    toolVersion = "10.12.4"
+    reportsDir = file("${project.buildDir}/checkstyle")
+}
+
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+        maxWarnings = 0
+    }
+}
+
+
 
 
 
