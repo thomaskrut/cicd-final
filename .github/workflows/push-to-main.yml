@@ -5,6 +5,10 @@ on:
         branches:
         - main
 
+env:
+    AZURE_RESOURCE_GROUP: DevOps
+    AZURE_APP_PLAN: ChatApp
+
 jobs:
     build-and-deploy-to-production-environment:
         runs-on: ubuntu-latest
