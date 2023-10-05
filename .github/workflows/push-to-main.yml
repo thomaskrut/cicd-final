@@ -63,5 +63,5 @@ jobs:
 
       - name: Deploy Azure Web App with ghcr container image
         run: |
-          deployment_name="${{ github.head_ref || github.ref_name }}"
+          deployment_name="staging-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ghcr.io/${{ github.repository }}:latest -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
