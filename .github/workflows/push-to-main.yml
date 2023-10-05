@@ -46,8 +46,18 @@ jobs:
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Build image
+            - name: Build and push image
               run: |
                 image_name="ghcr.io/${{ github.repository }}:latest"
                 docker build -t $image_name .
                 docker push $image_name
+
+            - name: Login via Azure CLI
+              uses: azure/login@v1
+              with:
+                creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+            - name: Deploy Azure Web App with ghcr container image
+              run: |
+                deployment_name="${{ github.head_ref || github.ref_name }}"
+                az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ghcr.io/${{ github.repository }}:latest -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
