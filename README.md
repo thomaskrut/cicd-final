@@ -58,8 +58,6 @@ Eller kontrollera hela bygget med:
 
 ```$ ./gradlew build```
 
-
-
 ### Integrationstester
 Tester som gör nätverksanrop mot körande applikation ligger under mappen intTest. Dessa körs i Github actions
 vid push och innan kod kan mergas till main. Kör dessa tester lokalt innan du pushar för att undvika att
