@@ -64,6 +64,6 @@ jobs:
       - name: Run application
         run: |
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew bootJar
           java -jar build/libs/ciditest.jar &
           ./gradlew integrationTest
