@@ -1,67 +1,67 @@
 name: "Deploy to production environment"
 
 on:
-    push:
-        branches:
-        - main
+  push:
+    branches:
+      - main
 
 env:
-    AZURE_RESOURCE_GROUP: DevOps
-    AZURE_APP_PLAN: ChatApp
+  AZURE_RESOURCE_GROUP: DevOps
+  AZURE_APP_PLAN: ChatApp
 
 jobs:
-    build-and-deploy-to-production-environment:
-        runs-on: ubuntu-latest
+  build-and-deploy-to-production-environment:
+    runs-on: ubuntu-latest
 
-        permissions:
-            contents: read
-            packages: write
+    permissions:
+      contents: read
+      packages: write
 
-        steps:
+    steps:
 
-            - name: check out repository
-              uses: actions/checkout@v3
+      - name: check out repository
+        uses: actions/checkout@v3
 
-            - name: Set up JDK 17
-              uses: actions/setup-java@v3
-              with:
-               java-version: '17'
-               distribution: 'corretto'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
 
-            - name: Cache Gradle dependencies
-              uses: actions/cache@v3
-              with:
-                 path: |
-                     ~/.gradle/caches
-                     ~/.gradle/wrapper
-                 key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-                 restore-keys: |
-                     gradle-${{ runner.os }}-
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
 
-            - name: Build jar
-              run: |
-                chmod +x gradlew
-                ./gradlew build
+      - name: Build jar
+        run: |
+          chmod +x gradlew
+          ./gradlew build
 
-            - name: Log in to ghcr.io
-              uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-              with:
-                registry: ghcr.io
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Log in to ghcr.io
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Build and push image
-              run: |
-                image_name="ghcr.io/${{ github.repository }}:latest"
-                docker build -t $image_name .
-                docker push $image_name
+      - name: Build and push image
+        run: |
+          image_name="ghcr.io/${{ github.repository }}:latest"
+          docker build -t $image_name .
+          docker push $image_name
 
-            - name: Login via Azure CLI
-              uses: azure/login@v1
-              with:
-                creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-            - name: Deploy Azure Web App with ghcr container image
-              run: |
-                deployment_name="${{ github.head_ref || github.ref_name }}"
-                az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ghcr.io/${{ github.repository }}:latest -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
+      - name: Deploy Azure Web App with ghcr container image
+        run: |
+          deployment_name="${{ github.head_ref || github.ref_name }}"
+          az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ghcr.io/${{ github.repository }}:latest -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
