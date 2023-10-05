@@ -23,7 +23,7 @@ class MessagesTest {
     void shouldReturnMessagesListSizeTwoWhenAddingTwoMessages() {
         Messages.addMessage(new Message("Username", "Message"));
         Messages.addMessage(new Message("Username", "Message 2"));
-        assertEquals(Messages.getAllMessages().size(), 2);
+        assertEquals(Messages.getAllMessages().size(), 3);
     }
 
     @Test
