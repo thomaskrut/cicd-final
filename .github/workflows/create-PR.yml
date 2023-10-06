@@ -106,6 +106,7 @@ jobs:
         run: |
           deployment_name="test-deployment-${{ github.head_ref || github.ref_name }}"
           az webapp create --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_APP_PLAN -i ${{ steps.meta.outputs.tags }} -w ${{ secrets.GITHUB_TOKEN }} -s ${{ github.actor }}
+          az webapp config set -g DevOps -n $deployment_name --always-on true
           webapp_url=$(az webapp show --name $deployment_name --resource-group $AZURE_RESOURCE_GROUP --query defaultHostName -o tsv)
           echo "### :mag: Test deployment available at [$webapp_url](https://$webapp_url)" > webappurl.txt
 
